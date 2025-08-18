@@ -29,16 +29,14 @@
             display: none !important;
         }
     </style>
+    @stack('styles')
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Dropzone -->
-    <!-- Dropzone CSS -->
-    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" />
-
-    <!-- Dropzone JS -->
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 
 </head>
 
@@ -51,6 +49,8 @@
     </div>
 
     @yield('content')
+
+    @stack('scripts')
 
 </body>
 

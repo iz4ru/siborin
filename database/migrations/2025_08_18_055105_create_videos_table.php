@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('filename')->nullable();
             $table->string('path')->nullable();
-            $table->string('url')->nullable();
+            $table->string('video_url')->nullable();
             $table->timestamps();
         });
     }

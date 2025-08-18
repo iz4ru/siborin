@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -18,7 +19,9 @@ Route::middleware('auth')->group(function (){
     # Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    
+    # Images
+    Route::get('image-upload', [ImageController::class, 'upload'])->name('image.upload');
+    Route::post('image-store', [ImageController::class, 'store'])->name('image.store');
 
     # Logout
     Route::post('log-out', [AuthController::class, 'logout'])->name('logout');

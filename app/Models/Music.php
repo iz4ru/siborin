@@ -10,8 +10,8 @@ class Music extends Model
     use HasFactory;
     protected $table = 'music';
     protected $fillable = [
-        'name',
+        'filename',
         'path',
-        'url',
+        'music_url',
     ];
 }
