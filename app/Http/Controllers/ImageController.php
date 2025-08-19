@@ -6,6 +6,7 @@ use App\Models\Log;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -33,11 +34,14 @@ class ImageController extends Controller
     {
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-                $path = $file->store('images', 'public');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                Storage::disk('supabase')->putFileAs('', $file, $filename);
+                $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 
                 Image::create([
+                    'user_id' => auth()->id(), // pastikan user login
                     'filename' => $file->getClientOriginalName(),
-                    'path' => $path,
+                    'path' => $url,
                 ]);
             }
 
@@ -60,6 +64,7 @@ class ImageController extends Controller
             );
 
             Image::create([
+                'user_id' => auth()->id(),
                 'image_url' => $validatedData['image_url'],
             ]);
 

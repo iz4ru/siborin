@@ -10,8 +10,13 @@ class Music extends Model
     use HasFactory;
     protected $table = 'music';
     protected $fillable = [
+        'user_id',
         'filename',
         'path',
         'music_url',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

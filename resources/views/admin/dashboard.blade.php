@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <button class="space-x-1 mt-4 cursor-pointer bg-[#0077C3] px-4 py-2 rounded-md" id="submit-image">
+                    <button class="space-x-1 mt-4 cursor-pointer !bg-[#0077C3] px-4 py-2 rounded-md" id="submit-image">
                         <span class="text-white font-semibold text-sm">
                             Submit Image</span> <i class="fa fa-cloud-upload text-white" aria-hidden="true"></i>
                     </button>
@@ -126,6 +126,9 @@
 
 @push('styles')
     <style>
+        button {
+            background-color: #0077C3;
+        }
         /* Styling Dropzone */
         #image-dropzone {
             border: 2px dashed #0077c3;

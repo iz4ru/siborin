@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('music', function (Blueprint $table) {
             $table->id();
-            $table->string('filename')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('filename');
             $table->string('path')->nullable();
             $table->string('music_url')->nullable();
             $table->timestamps();

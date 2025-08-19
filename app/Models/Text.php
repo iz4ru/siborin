@@ -10,6 +10,11 @@ class Text extends Model
     use HasFactory;
     protected $table = 'texts';
     protected $fillable = [
+        'user_id',
         'text',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

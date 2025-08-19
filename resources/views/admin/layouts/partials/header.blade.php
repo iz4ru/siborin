@@ -7,7 +7,7 @@
                     class="cursor-pointer inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 :text-gray-400 :hover:bg-gray-700 :focus:ring-gray-600">
                     <span class="sr-only">Open sidebar</span>
                 <i
-                    class="fa-solid fa-bars text-gray-700 hover:bg-gray-100 text-xl"></i>
+                    class="fa-solid fa-bars text-white hover:bg-gray-100 text-xl"></i>
                 </button>
                 <a href="#" class="flex ms-2 md:me-24">
                     <img src="{{ asset('images/siborin.png') }}" class="h-8 me-3" alt="SIBORIN Logo" />
