@@ -29,6 +29,7 @@
             display: none !important;
         }
     </style>
+    @stack('styles')
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -38,21 +39,25 @@
 
     @yield('content')
 
+    @stack('scripts')
+
 </body>
 
 <script>
     const passwordInput = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
-
-    togglePassword.addEventListener("click", function() {
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            this.classList.replace("fa-eye", "fa-eye-slash");
-        } else {
-            passwordInput.type = "password";
-            this.classList.replace("fa-eye-slash", "fa-eye");
-        }
-    });
+    
+    if(togglePassword) {
+        togglePassword.addEventListener("click", function() {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                this.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                this.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        });
+    }
 </script>
 
 <script>
