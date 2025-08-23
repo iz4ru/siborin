@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
+    public function index()
+    {
+        $x['images'] = Image::all();
+        return view('admin.contents.image-management.index', $x);
+    }
+
     public function log($action)
     {
         $user = Auth::user();

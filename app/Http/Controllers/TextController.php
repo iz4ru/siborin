@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class TextController extends Controller
 {
+    public function index()
+    {
+        $x['texts'] = Text::all();
+        return view('admin.contents.text-management.index', $x);
+    }
+
     public function log($action)
     {
         $user = Auth::user();

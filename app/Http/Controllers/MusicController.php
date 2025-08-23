@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MusicController extends Controller
 {
+    public function index()
+    {
+        $x['songs'] = Music::all();
+        return view('admin.contents.music-management.index', $x);
+    }
+
     public function log($action)
     {
         $user = Auth::user();

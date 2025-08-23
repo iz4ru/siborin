@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+    public function index()
+    {
+        $x['videos'] = Video::all();
+        return view('admin.contents.video-management.index', $x);
+    }
+
     public function log($action)
     {
         $user = Auth::user();

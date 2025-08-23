@@ -23,18 +23,22 @@ Route::middleware('auth')->group(function (){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     # Images
+    Route::get('image', [ImageController::class, 'index'])->name('image.index');
     Route::get('image-upload', [ImageController::class, 'upload'])->name('image.upload');
     Route::post('image-store', [ImageController::class, 'store'])->name('image.store');
 
     # Videos
+    Route::get('video', [VideoController::class, 'index'])->name('video.index');
     Route::get('video-upload', [VideoController::class, 'upload'])->name('video.upload');
     Route::post('video-store', [VideoController::class, 'store'])->name('video.store');
 
     # Music
+    Route::get('music', [MusicController::class, 'index'])->name('music.index');
     Route::get('music-upload', [MusicController::class, 'upload'])->name('music.upload');
     Route::post('music-store', [MusicController::class, 'store'])->name('music.store');
 
     # Text
+    Route::get('text', [TextController::class, 'index'])->name('text.index');
     Route::get('text-upload', [TextController::class, 'upload'])->name('text.upload');
     Route::post('text-store', [TextController::class, 'store'])->name('text.store');
 
