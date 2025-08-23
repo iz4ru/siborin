@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('filename');
+            $table->string('filename')->nullable();
             $table->string('path')->nullable();
             $table->string('video_url')->nullable();
             $table->timestamps();

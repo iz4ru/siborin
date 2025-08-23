@@ -39,7 +39,7 @@ class MusicController extends Controller
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 
                 Music::create([
-                    'user_id' => auth()->id(), // pastikan user login
+                    'user_id' => Auth::id(), // pastikan user login
                     'filename' => $file->getClientOriginalName(),
                     'path' => $url,
                 ]);
@@ -48,13 +48,13 @@ class MusicController extends Controller
             $action = 'Uploaded ' . count($request->file('music')) . ' music(s)';
             $this->log($action);
 
-            return redirect()->route('dashboard')->with('success', 'musics uploaded successfully');
+            return redirect()->route('dashboard')->with('success', 'music uploaded successfully');
         }
 
         if ($request->has('music_url')) {
             $validatedData = $request->validate(
                 [
-                    'music_url' => 'required|url|unique:musics,music_url',
+                    'music_url' => 'required|url|unique:music,music_url',
                 ],
                 [
                     'music_url.required' => 'music URL is required',
@@ -63,15 +63,15 @@ class MusicController extends Controller
                 ],
             );
 
-            music::create([
-                'user_id' => auth()->id(),
+            Music::create([
+                'user_id' => Auth::id(),
                 'music_url' => $validatedData['music_url'],
             ]);
 
             $action = 'Added music from URL: ' . $validatedData['music_url'];
             $this->log($action);
 
-            return redirect()->route('dashboard')->with('success', 'music URL added successfully');
+            return redirect()->route('dashboard')->with('success', 'Music URL added successfully');
         }
 
         return redirect()->route('dashboard')->withErrors('No music or URL provided');

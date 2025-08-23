@@ -38,8 +38,8 @@ class VideoController extends Controller
                 Storage::disk('supabase')->putFileAs('', $file, $filename);
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 
-                Image::create([
-                    'user_id' => auth()->id(), // pastikan user login
+                Video::create([
+                    'user_id' => Auth::id(),
                     'filename' => $file->getClientOriginalName(),
                     'path' => $url,
                 ]);
@@ -63,8 +63,8 @@ class VideoController extends Controller
                 ],
             );
 
-            Image::create([
-                'user_id' => auth()->id(),
+            Video::create([
+                'user_id' => Auth::id(),
                 'video_url' => $validatedData['video_url'],
             ]);
 

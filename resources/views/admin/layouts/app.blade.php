@@ -48,7 +48,12 @@
         @include('admin.layouts.partials.sidebar')
     </div>
 
-    @yield('content')
+    <div class="p-4 sm:ml-64 items-cnter- justify-center">
+            @yield('content')
+
+    @include('admin.layouts.partials.footer')
+    </div>
+
 
     @stack('scripts')
 

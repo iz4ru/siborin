@@ -11,6 +11,7 @@ class Text extends Model
     protected $table = 'texts';
     protected $fillable = [
         'user_id',
+        'title',
         'text',
     ];
     public function user()

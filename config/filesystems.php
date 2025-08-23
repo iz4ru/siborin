@@ -63,8 +63,8 @@ return [
         'supabase' => [
             'driver' => 's3',
             'key' => env('SUPABASE_KEY'),
-            'secret' => env('SUPABASE_SECRET'),   // kosongin aja
-            'region' => 'ap-southeast-1',              // bebas (Supabase gak cek region)
+            'secret' => env('SUPABASE_SECRET'),
+            'region' => 'ap-southeast-1',
             'bucket' => env('SUPABASE_BUCKET'),
             'url' => env('SUPABASE_URL'),
             'endpoint' => env('SUPABASE_URL'),

@@ -39,7 +39,7 @@ class ImageController extends Controller
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 
                 Image::create([
-                    'user_id' => auth()->id(), // pastikan user login
+                    'user_id' => Auth::id(),
                     'filename' => $file->getClientOriginalName(),
                     'path' => $url,
                 ]);
@@ -64,7 +64,7 @@ class ImageController extends Controller
             );
 
             Image::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'image_url' => $validatedData['image_url'],
             ]);
 

@@ -3,22 +3,64 @@
     aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
+            <!-- Dashboard -->
             <li>
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    <i class="fa-solid fa-home hover:bg-gray-100 text-md"></i>
-                    <span class="ms-3">Dashboard</span>
+                    <i class="fa-solid fa-home text-md"></i>
+                    <span class="ml-3">Dashboard</span>
                 </x-nav-link>
             </li>
+
+            <!-- Dropdown Pages -->
             <li>
-                <x-nav-link href="#" :active="request()->routeIs('/')">
-                    <i class="fa-solid fa-image hover:bg-gray-100 text-md"></i>
-                    <span class="ms-3">Content</span>
-                </x-nav-link>
+                <button type="button"
+                    class="flex cursor-pointer items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
+                    aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
+                    <i class="fa-solid fa-images text-md"></i>
+                    <span class="flex-1 ml-3 text-left whitespace-nowrap">Content</span>
+                    <i class="fa-solid fa-chevron-down text-md"></i>
+                </button>
+                <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                    <li>
+                        <div class="pl-5">
+                            <x-nav-link>
+                                <i class="fa-solid fa-image text-md"></i>
+                                <span class="ml-3">Images</span>
+                            </x-nav-link>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pl-5">
+                            <x-nav-link>
+                                <i class="fa-solid fa-video text-md"></i>
+                                <span class="ml-3">Videos</span>
+                            </x-nav-link>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pl-5">
+                            <x-nav-link>
+                                <i class="fa-solid fa-music text-md"></i>
+                                <span class="ml-3">Music</span>
+                            </x-nav-link>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pl-5">
+                            <x-nav-link>
+                                <i class="fa-solid fa-font text-md"></i>
+                                <span class="ml-3">Texts</span>
+                            </x-nav-link>
+                        </div>
+                    </li>
+                </ul>
             </li>
+
+            <!-- Logs -->
             <li>
-                <x-nav-link href="#" :active="request()->routeIs('/')">
-                    <i class="fa-solid fa-clock-rotate-left hover:bg-gray-100 text-md"></i>
-                    <span class="ms-3">Logs</span>
+                <x-nav-link href="#" :active="request()->routeIs('logs')">
+                    <i class="fa-solid fa-clock-rotate-left text-md"></i>
+                    <span class="ml-3">Logs</span>
                 </x-nav-link>
             </li>
         </ul>
