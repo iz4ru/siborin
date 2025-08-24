@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login - SIBORIN')
+@section('title', 'Login | SIBORIN')
 
 <body class="bg-gradient-to-b from-[#FAFAFA] from-50% to-[#ECECEC] overflow-x-hidden">
     <div class="flex-1 flex flex-col">

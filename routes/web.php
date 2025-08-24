@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\ImageController;
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function (){
     Route::get('image', [ImageController::class, 'index'])->name('image.index');
     Route::get('image-upload', [ImageController::class, 'upload'])->name('image.upload');
     Route::post('image-store', [ImageController::class, 'store'])->name('image.store');
+    Route::delete('image-delete/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
 
     # Videos
     Route::get('video', [VideoController::class, 'index'])->name('video.index');
@@ -41,6 +43,9 @@ Route::middleware('auth')->group(function (){
     Route::get('text', [TextController::class, 'index'])->name('text.index');
     Route::get('text-upload', [TextController::class, 'upload'])->name('text.upload');
     Route::post('text-store', [TextController::class, 'store'])->name('text.store');
+
+    # Logs
+    Route::get('logs', [LogController::class, 'index'])->name('logs');
 
     # Logout
     Route::post('log-out', [AuthController::class, 'logout'])->name('logout');

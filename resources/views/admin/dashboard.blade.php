@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard - SIBORIN')
+@section('title', 'Dashboard | SIBORIN')
 
 @section('content')
 

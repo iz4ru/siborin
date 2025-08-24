@@ -42,7 +42,7 @@ class ImageController extends Controller
             foreach ($request->file('image') as $file) {
                 $filename = time() . '_' . $file->getClientOriginalName();
                 Storage::disk('supabase')->putFileAs('', $file, $filename);
-                $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
+                $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . '/' . $filename;
 
                 Image::create([
                     'user_id' => Auth::id(),
@@ -81,5 +81,26 @@ class ImageController extends Controller
         }
 
         return redirect()->route('dashboard')->withErrors('No image or URL provided');
+    }
+
+    public function destroy($id)
+    {
+        $image = Image::findOrFail($id);
+
+        if ($image->user_id !== Auth::id()) {
+            return back()->withErrors('Unauthorized action');
+        }
+
+        if ($image->path && !filter_var($image->path, FILTER_VALIDATE_URL)) {
+            $filename = basename($image->path);
+            Storage::disk('supabase')->delete($filename);
+        }
+
+        $image->delete();
+
+        $action = 'Deleted image: ' . ($image->filename ?? $image->image_url);
+        $this->log($action);
+
+        return back()->with('success', 'Image deleted successfully');
     }
 }

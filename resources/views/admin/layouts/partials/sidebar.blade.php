@@ -58,7 +58,7 @@
 
             <!-- Logs -->
             <li>
-                <x-nav-link href="#" :active="request()->routeIs('logs')">
+                <x-nav-link href="{{ route('logs') }}" :active="request()->routeIs('logs')">
                     <i class="fa-solid fa-clock-rotate-left text-md"></i>
                     <span class="ml-3">Logs</span>
                 </x-nav-link>

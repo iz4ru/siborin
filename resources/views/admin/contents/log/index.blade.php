@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Manage Image | SIBORIN')
+@section('title', 'Admin Log | SIBORIN')
 
 @section('content')
 
@@ -30,12 +30,12 @@
         </div>
 
         <div>
-            <h1 class="text-lg font-semibold text-[#0077C3]">Manage Image</h1>
-            <p class="text-[#1A85C9]">Upload, delete, and manage images using the table below.</p>
+            <h1 class="text-lg font-semibold text-[#0077C3]">Admin Log</h1>
+            <p class="text-[#1A85C9]">Displays recent admin activities and system events.</p>
         </div>
         <hr class="mt-4 mb-8 border-gray-200 rounded border-t-2">
         <div wire:ignore.self>
-            @livewire('image-table')
+            @livewire('log-table')
         </div>
     </div>
 

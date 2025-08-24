@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('filename')->nullable();
             $table->string('path')->nullable();
-            $table->string('music_url')->nullable();
+            $table->text('music_url')->nullable();
             $table->timestamps();
         });
     }
