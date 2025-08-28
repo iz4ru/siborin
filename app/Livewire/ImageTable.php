@@ -25,28 +25,38 @@ class ImageTable extends DataTableComponent
                 ->sortable(),
 
             Column::make("Preview Image", "path")
-            ->format(fn($value) => $value
-            ? '<img src="'.e($value).'" class="w-16 h-16 items-center justify-center object-cover rounded">'
-            : '<span class="text-gray-400 text-sm">Non Uploaded</span>'
-            )
-            ->html(),
+                ->format(fn($value) => $value
+                ? '<img src="'.e($value).'" class="w-16 h-16 items-center justify-center object-cover rounded">'
+                : '<span class="text-gray-400 text-sm">Non Uploaded</span>'
+                )
+                ->html(),
 
             Column::make("Preview URL Image", "image_url")
-            ->format(fn($value) => $value
-            ? '<img src="'.e($value).'" class="w-16 h-16 items-center justify-center object-cover rounded">'
-            : '<span class="text-gray-400 text-sm">Non URL Image</span>'
-            )
-            ->html(),
+                ->format(fn($value) => $value
+                ? '<img src="'.e($value).'" class="w-16 h-16 items-center justify-center object-cover rounded">'
+                : '<span class="text-gray-400 text-sm">Non URL Image</span>'
+                )
+                ->html(),
 
             Column::make("Uploader", "user.username")
-                ->format(fn($value) => '<span class="font-semibold text-green-500">'.$value.'</span>')
+                ->format(fn($value) => '<span class="font-semibold">'.$value.'</span>')
                 ->html()
                 ->sortable(),
 
             Column::make("Uploaded", "created_at")
+                ->format(function($value, $row, Column $column) {
+                    return '
+                    <div class="flex gap-2 items-center justify-center">
+                        <span>' . $row->created_at->format('d M Y H:i') . '</span>
+                        <span class="text-gray-300"> | </span>
+                        <span class="text-[#0077C3]">' . $row->created_at->diffForHumans() . '</span>
+                    </div>
+                    ';
+                })
+                ->html()
                 ->sortable(),
 
-            Column::make("Filename", "path")
+            Column::make("Full Preview", "path")
                 ->format(fn($value) => $value 
                     ? '<div class="flex items-center justify-center">
                             <a href="'.$value.'" target="_blank" 
@@ -59,7 +69,7 @@ class ImageTable extends DataTableComponent
                 )
                 ->html(),
 
-            Column::make("URL", "image_url")
+            Column::make("Full Preview (URL)", "image_url")
                 ->format(fn($value) => $value 
                     ? '<div class="flex items-center justify-center">
                             <a href="'.$value.'" target="_blank" 
@@ -75,7 +85,7 @@ class ImageTable extends DataTableComponent
             Column::make('Actions')
                 ->label(fn($row, Column $column) => 
                     '<div class="flex items-center justify-center">
-                        <form method="POST" action="'.route('image.destroy', $row->id).'" onsubmit="return confirm(\'Are you sure you want to delete this image?\');">
+                        <form method="POST" action="'.route('text.destroy', $row->id).'" onsubmit="return confirm(\'Are you sure you want to delete this image?\');">
                             '.csrf_field().'
                             '.method_field('DELETE').'
                             <button type="submit" class="flex cursor-pointer items-center justify-center gap-2 px-3 py-2 bg-red-600 text-white text-xs rounded hover:bg-red-700">

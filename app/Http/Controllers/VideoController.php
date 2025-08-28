@@ -82,4 +82,25 @@ class VideoController extends Controller
 
         return redirect()->route('dashboard')->withErrors('No video or URL provided');
     }
+
+    public function destroy($id)
+    {
+        $video = Video::findOrFail($id);
+
+        if ($video->user_id !== Auth::id()) {
+            return back()->withErrors('Unauthorized action');
+        }
+
+        if ($video->path && !filter_var($video->path, FILTER_VALIDATE_URL)) {
+            $filename = basename($video->path);
+            Storage::disk('supabase')->delete($filename);
+        }
+
+        $video->delete();
+
+        $action = 'Deleted video: ' . ($video->filename ?? $video->video_url);
+        $this->log($action);
+
+        return back()->with('success', 'Video deleted successfully');
+    }
 }

@@ -6,7 +6,8 @@
 
     <div x-data="{
         active: localStorage.getItem('activeTab') || 'image'
-    }" x-init="$watch('active', value => localStorage.setItem('activeTab', value))"
+        }" 
+        x-init="$watch('active', value => localStorage.setItem('activeTab', value))"
         class="p-4 border-2 border-gray-200 border-dashed rounded-lg w-full mt-14">
 
         {{-- Alert Section --}}
@@ -260,7 +261,7 @@
                 <div class="mb-4">
                     <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Text</label>
                     <textarea id="text" name="text" rows="4"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[#0077C3] focus:border-[#0077C3] placeholder:text-gray-400"
+                        class="block p-2.5 w-full text-sm leading-6 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[#0077C3] focus:border-[rgb(0,119,195)] placeholder:text-gray-400"
                         placeholder="Enter your text here...">{{ old('text') }}</textarea>
                 </div>
                 <div class="grid grid-cols-2 items-center">
@@ -269,7 +270,7 @@
                     </p>
                     <div class="flex justify-end">
                         <button type="submit"
-                            class="mt-2 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#0077C3] rounded-lg hover:bg-[#1A85C9] focus:outline-none focus:ring-2 focus:ring-[#0077C3]">
+                            class="mt-2 cursor-pointer flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#0077C3] rounded-lg hover:bg-[#1A85C9] focus:outline-none focus:ring-2 focus:ring-[#0077C3]">
                             <span>Submit Text</span>
                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                         </button>

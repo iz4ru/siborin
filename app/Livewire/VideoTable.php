@@ -13,23 +13,92 @@ class VideoTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+        $this->setDefaultSort('created_at', 'desc');
     }
 
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
+            Column::make("ID", "id")
                 ->sortable(),
-            Column::make("Filename", "filename")
+
+            Column::make("Preview Video", "path")
+                ->format(fn($value) => $value
+                    ? '<video src="'.e($value).'" class="w-32 h-20 rounded object-cover" controls></video>'
+                    : '<span class="text-gray-400 text-sm">Non Uploaded</span>'
+                )
+                ->html(),
+
+            Column::make("Preview URL Video", "video_url")
+                ->format(fn($value) => $value
+                    ? '<iframe src="'.e($value).'" 
+                            class="w-32 h-20 rounded" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>'
+                    : '<span class="text-gray-400 text-sm">Non URL Video</span>'
+                )
+                ->html(),
+
+            Column::make("Uploader", "user.username")
+                ->format(fn($value) => '<span class="font-semibold">'.$value.'</span>')
+                ->html()
                 ->sortable(),
-            Column::make("Path", "path")
+
+            Column::make("Uploaded", "created_at")
+                ->format(function($value, $row, Column $column) {
+                    return '
+                    <div class="flex gap-2 items-center justify-center">
+                        <span>' . $row->created_at->format('d M Y H:i') . '</span>
+                        <span class="text-gray-300"> | </span>
+                        <span class="text-[#0077C3]">' . $row->created_at->diffForHumans() . '</span>
+                    </div>
+                    ';
+                })
+                ->html()
                 ->sortable(),
-            Column::make("Video url", "video_url")
-                ->sortable(),
-            Column::make("Created at", "created_at")
-                ->sortable(),
-            Column::make("Updated at", "updated_at")
-                ->sortable(),
+
+            Column::make("Full Preview", "path")
+                ->format(fn($value) => $value
+                    ? '<div class="flex items-center justify-center">
+                            <a href="'.$value.'" target="_blank" 
+                               class="flex items-center justify-center gap-2 px-3 py-2 bg-[#0077C3] text-white text-xs rounded hover:bg-[#1A85C9]">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <span>View</span>
+                            </a>
+                       </div>'
+                    : '<span class="text-gray-400">Non Uploaded</span>'
+                )
+                ->html(),
+
+            Column::make("Full Preview (URL)", "video_url")
+                ->format(fn($value) => $value
+                    ? '<div class="flex items-center justify-center">
+                            <a href="'.$value.'" target="_blank" 
+                               class="flex items-center justify-center gap-2 px-3 py-2 bg-[#0077C3] text-white text-xs rounded hover:bg-[#1A85C9]">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <span>View</span>
+                            </a>
+                       </div>'
+                    : '<span class="text-gray-400">Non URL</span>'
+                )
+                ->html(),
+
+            Column::make('Actions')
+                ->label(fn($row, Column $column) =>
+                    '<div class="flex items-center justify-center">
+                        <form method="POST" action="'.route('video.destroy', $row->id).'" onsubmit="return confirm(\'Are you sure you want to delete this video?\');">
+                            '.csrf_field().'
+                            '.method_field('DELETE').'
+                            <button type="submit" class="flex cursor-pointer items-center justify-center gap-2 px-3 py-2 bg-red-600 text-white text-xs rounded hover:bg-red-700">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <span>Delete</span>
+                            </button>
+                        </form>
+                    </div>'
+                )
+                ->html(),
         ];
     }
 }

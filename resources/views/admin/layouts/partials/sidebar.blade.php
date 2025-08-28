@@ -13,7 +13,7 @@
 
             <!-- Dropdown Pages -->
             <li>
-                <x-nav-link type="button" :active="request()->routeIs(['image.index', 'video.index', 'music.index', 'text.index'])"
+                <x-nav-link type="button" :active="request()->routeIs(['image.index', 'video.index', 'music.index', 'text.index', 'text.show'])"
                     class="flex cursor-pointer items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
                     aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
                     <i class="fa-solid fa-images text-md"></i>
@@ -47,7 +47,7 @@
                     </li>
                     <li>
                         <div class="pl-5">
-                            <x-nav-link href="{{ route('text.index') }}" :active="request()->routeIs('text.index')">
+                            <x-nav-link href="{{ route('text.index') }}" :active="request()->routeIs(['text.index', 'text.show'])">
                                 <i class="fa-solid fa-font text-md"></i>
                                 <span class="ml-3">Texts</span>
                             </x-nav-link>
