@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Video;
 use App\Models\Music;
 use App\Models\Option;
+use App\Models\Text;
 
 class DisplayController extends Controller
 {
@@ -29,7 +30,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $videos = $options->show_images
+        $videos = $options->show_videos
             ? Video::where('user_id', $userId)
                 ->select('id', 'filename', 'path', 'video_url', 'created_at')
                 ->get()
@@ -42,7 +43,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $musics = $options->show_images
+        $musics = $options->show_musics
             ? Music::where('user_id', $userId)
                 ->select('id', 'filename', 'path', 'music_url', 'created_at')
                 ->get()
@@ -55,7 +56,19 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $items = $images->merge($videos)->merge($musics)->sortBy('created_at')->values();
+        $texts = $options->show_texts
+            ? Text::where('user_id', $userId)
+                ->select('id', 'text', 'created_at')
+                ->get()
+                ->map(fn($t) => [
+                    'type' => 'text',
+                    'id' => $t->id,
+                    'text' => $t->text,
+                    'created_at' => $t->created_at,
+                ])
+            : collect();
+
+        $items = $images->merge($videos)->merge($musics)->merge($texts)->sortBy('created_at')->values();
 
         return view('monitor.display', compact('items'));
     }
@@ -63,11 +76,13 @@ class DisplayController extends Controller
     public function check()
     {
         return response()->json([
-            'count' => Image::count() + Video::count() + Music::count(),
+            'count' => Image::count() + Video::count() + Music::count() + Text::count(),
             'updated_at' => collect([
                 Image::max('updated_at'),
                 Video::max('updated_at'),
                 Music::max('updated_at'),
+                Text::max('updated_at'),
+                Option::max('updated_at'),
             ])->filter()->max(),
         ])->header('Cache-Control', 'no-cache, no-store, must-revalidate')
           ->header('Pragma', 'no-cache')
@@ -93,7 +108,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $videos = $options->show_images
+        $videos = $options->show_videos
             ? Video::where('user_id', $userId)
                 ->select('id', 'filename', 'path', 'video_url', 'created_at')
                 ->get()
@@ -106,7 +121,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $musics = $options->show_images
+        $musics = $options->show_musics
             ? Music::where('user_id', $userId)
                 ->select('id', 'filename', 'path', 'music_url', 'created_at')
                 ->get()
@@ -119,8 +134,20 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $items = $images->merge($videos)->merge($musics)->sortBy('created_at')->values();
-        
+        $texts = $options->show_texts
+            ? Text::where('user_id', $userId)
+                ->select('id', 'text', 'created_at')
+                ->get()
+                ->map(fn($t) => [
+                    'type' => 'text',
+                    'id' => $t->id,
+                    'text' => $t->text,
+                    'created_at' => $t->created_at,
+                ])
+            : collect();
+
+        $items = $images->merge($videos)->merge($musics)->merge($texts)->sortBy('created_at')->values();
+
         return response()->json($items)
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
             ->header('Pragma', 'no-cache')

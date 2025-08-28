@@ -82,4 +82,25 @@ class MusicController extends Controller
 
         return redirect()->route('dashboard')->withErrors('No music or URL provided');
     }
+
+        public function destroy($id)
+    {
+        $music = Music::findOrFail($id);
+
+        if ($music->user_id !== Auth::id()) {
+            return back()->withErrors('Unauthorized action');
+        }
+
+        if ($music->path && !filter_var($music->path, FILTER_VALIDATE_URL)) {
+            $filename = basename($music->path);
+            Storage::disk('supabase')->delete($filename);
+        }
+
+        $music->delete();
+
+        $action = 'Deleted music: ' . ($music->filename ?? $music->music_url);
+        $this->log($action);
+
+        return back()->with('success', 'Music deleted successfully');
+    }
 }

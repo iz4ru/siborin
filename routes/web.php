@@ -44,16 +44,20 @@ Route::middleware('auth')->group(function (){
     Route::get('video', [VideoController::class, 'index'])->name('video.index');
     Route::get('video-upload', [VideoController::class, 'upload'])->name('video.upload');
     Route::post('video-store', [VideoController::class, 'store'])->name('video.store');
+    Route::delete('video-delete/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
 
     # Music
     Route::get('music', [MusicController::class, 'index'])->name('music.index');
     Route::get('music-upload', [MusicController::class, 'upload'])->name('music.upload');
     Route::post('music-store', [MusicController::class, 'store'])->name('music.store');
+    Route::delete('music-delete/{id}', [MusicController::class, 'destroy'])->name('music.destroy');
 
     # Text
     Route::get('text', [TextController::class, 'index'])->name('text.index');
     Route::get('text-upload', [TextController::class, 'upload'])->name('text.upload');
     Route::post('text-store', [TextController::class, 'store'])->name('text.store');
+    Route::get('text-show/{id}', [TextController::class, 'show'])->name('text.show');
+    Route::delete('text-delete/{id}', [TextController::class, 'destroy'])->name('text.destroy');
 
     # Logs
     Route::get('logs', [LogController::class, 'index'])->name('logs');

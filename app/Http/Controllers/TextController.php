@@ -36,6 +36,13 @@ class TextController extends Controller
         return view('admin.dashboard', $x);
     }
 
+    public function show($id)
+    {
+        $x['text'] = Text::with('user')->findOrFail($id);
+
+        return view('admin.contents.text-management.show', $x);
+    }
+
     public function store(Request $request)
     {
         $request->validate(
@@ -68,5 +75,16 @@ class TextController extends Controller
         $this->log($action);
 
         return redirect()->route('dashboard')->with('success', 'Text submitted successfully');
+    }
+
+    public function destroy($id)
+    {
+        $text = Text::findOrFail($id);
+        $text->delete();
+
+        $action = 'Deleted text with ID ' . $id . ' with title "' . $text->title . '"';
+        $this->log($action);
+
+        return redirect()->route('text.index')->with('success', 'Text deleted successfully');
     }
 }

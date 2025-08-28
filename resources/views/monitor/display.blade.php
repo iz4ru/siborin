@@ -3,11 +3,11 @@
 @section('title', 'Display - SIBORIN')
 
 @section('content')
-<div id="loading" class="fixed inset-0 bg-black flex items-center justify-center text-black text-2xl z-50">
+<div id="loading" class="fixed inset-0 bg-black flex items-center justify-center text-white text-2xl z-50">
     Loading, please wait...
 </div>
 
-<div id="slideshow" class="w-full h-screen flex items-center justify-center bg-black text-white relative"></div>
+<div id="slideshow" class="w-full h-screen flex items-center justify-center bg-black text-white relative overflow-hidden"></div>
 
 <div id="bell-notification" style="display: none;" class="absolute inset-0 bg-white w-full flex items-center justify-center z-40">
     <div class="flex flex-col items-center" id="inner-bell">
@@ -20,7 +20,6 @@
 </div>
 
 <audio id="background-music" autoplay hidden></audio>
-
 <audio id="bell-sound" src="{{ asset('sounds/bell.mp3') }}"></audio>
 @endsection
 
@@ -49,6 +48,8 @@
             } else if (file.type === "music") {
                 let audio = new Audio(file.src);
                 audio.onloadeddata = checkDone;
+            } else if (file.type === "text") {
+                checkDone();
             }
         });
 
@@ -69,25 +70,53 @@
 
     function showItem(item) {
         const slideshow = document.getElementById('slideshow');
-        slideshow.innerHTML = "";
+
+        // beri exit animation pada slide yang sedang tampil (jika ada)
+        const current = slideshow.querySelector('.slide-wrapper');
+        if (current) {
+            current.classList.remove('slide-in-right', 'fade-in');
+            current.classList.add('slide-out-left');
+            current.addEventListener('animationend', () => current.remove(), { once: true });
+        }
 
         if (!item) return;
 
+        const wrapper = document.createElement('div');
+        wrapper.className = 'slide-wrapper slide-in-right';
+
         if (item.type === "image") {
-            let img = document.createElement("img");
+            const img = document.createElement('img');
             img.src = item.src;
-            img.className = "w-full h-full object-contain";
-            slideshow.appendChild(img);
-            setTimeout(nextSlide, 7000);
+            img.className = 'fullscreen-media';
+            wrapper.appendChild(img);
+            slideshow.appendChild(wrapper);
+
+            setTimeout(nextSlide, 5000);
 
         } else if (item.type === "video") {
-            let video = document.createElement("video");
+            const video = document.createElement('video');
             video.src = item.src;
             video.autoplay = true;
-            video.className = "w-full h-full object-contain";
-            slideshow.appendChild(video);
+            // di beberapa browser perlu muted buat autoplay
+            // video.muted = true;
+            video.playsInline = true;
+            video.className = 'fullscreen-media';
+            wrapper.appendChild(video);
+            slideshow.appendChild(wrapper);
+
+            // pastikan video play (catch jika autoplay diblock)
+            video.play().catch(() => { /* ignore if blocked */ });
+
             video.onended = () => nextSlide();
 
+        } else if (item.type === "text") {
+            const textEl = document.createElement('div');
+            textEl.textContent = item.text || "";
+            textEl.className = "text-6xl md:text-8xl font-bold text-center p-6";
+            wrapper.appendChild(textEl);
+            slideshow.appendChild(wrapper);
+
+            setTimeout(nextSlide, 5000);
         }
     }
 
@@ -119,21 +148,17 @@
             const data = await res.json();
 
             if (!firstCheckDone) {
-                // simpan baseline, jangan trigger bel
                 lastCount = data.count;
                 lastUpdatedAt = data.updated_at;
                 firstCheckDone = true;
                 return;
             }
 
-            // kalau ada perubahan jumlah atau updated_at
             if (data.count !== lastCount || data.updated_at !== lastUpdatedAt) {
                 lastCount = data.count;
                 lastUpdatedAt = data.updated_at;
 
                 playBell();
-
-                // refetch data terbaru
                 await fetchData();
             }
         } catch (err) {
@@ -168,15 +193,43 @@
     }
 
     setInterval(checkForUpdates, 10000);
-
     preloadFiles(items, () => startSlideshow());
 </script>
 @endpush
 
 @push('styles')
-    <style>
-        #inner-bell {
-            margin-top: calc(50vh - 6rem);
-        }
-    </style>
+<style>
+    #inner-bell {
+        margin-top: calc(50vh - 6rem);
+    }
+    .fullscreen-media {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+    }
+
+    .slide-wrapper {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to   { transform: translateX(0);    opacity: 1; }
+    }
+    @keyframes slideOutLeft {
+        from { transform: translateX(0);    opacity: 1; }
+        to   { transform: translateX(-100%);opacity: 0; }
+    }
+
+    .slide-in-right { animation: slideInRight 0.8s ease forwards; }
+    .slide-out-left { animation: slideOutLeft 0.8s ease forwards; }
+
+    @keyframes fadeIn { from {opacity:0} to {opacity:1} }
+    .fade-in { animation: fadeIn 0.6s ease forwards; }
+</style>
 @endpush

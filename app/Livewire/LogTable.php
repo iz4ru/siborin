@@ -27,7 +27,17 @@ class LogTable extends DataTableComponent
                 ->sortable(),
             Column::make("Ip address", "ip_address")
                 ->sortable(),
-            Column::make("Created at", "created_at")
+            Column::make("At", "created_at")
+                ->format(function($value, $row, Column $column) {
+                    return '
+                    <div class="flex gap-2 items-center justify-center">
+                        <span>' . $row->created_at->format('d M Y H:i') . '</span>
+                        <span class="text-gray-300"> | </span>
+                        <span class="text-[#0077C3]">' . $row->created_at->diffForHumans() . '</span>
+                    </div>
+                    ';
+                })
+                ->html()
                 ->sortable(),
         ];
     }

@@ -12,7 +12,7 @@ class DashboardController extends Controller
     {
         $options = Option::firstOrCreate(
             ['user_id' => Auth::id()],
-            ['show_images' => true, 'show_videos' => true, 'show_musics' => true]
+            ['show_images' => true, 'show_videos' => true, 'show_musics' => true, 'show_texts' => true]
         );
 
         return view('admin.dashboard', compact('options'));
@@ -29,6 +29,7 @@ class DashboardController extends Controller
             'show_images' => $request->has('show_images'),
             'show_videos' => $request->has('show_videos'),
             'show_musics' => $request->has('show_musics'),
+            'show_texts' => $request->has('show_texts'),
         ]);
         return redirect()->back()->with('success', 'Pilihan berhasil disimpan!');
     }

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Manage Music | SIBORIN')
+@section('title', 'Manage Video | SIBORIN')
 
 @section('content')
 
@@ -30,12 +30,12 @@
         </div>
 
         <div>
-            <h1 class="text-lg font-semibold text-[#0077C3]">Manage Music</h1>
-            <p class="text-[#1A85C9]">Upload, delete, and manage music using the table below.</p>
+            <h1 class="text-lg font-semibold text-[#0077C3]">Manage Video</h1>
+            <p class="text-[#1A85C9]">Upload, delete, and manage videos using the table below.</p>
         </div>
         <hr class="mt-4 mb-8 border-gray-200 rounded border-t-2">
         <div wire:ignore.self>
-            @livewire('music-table')
+            @livewire('video-table')
         </div>
     </div>
 

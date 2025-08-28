@@ -15,6 +15,7 @@ class Option extends Model
         'show_images',
         'show_videos',
         'show_musics',
+        'show_texts',
     ];
 
     public function user() {

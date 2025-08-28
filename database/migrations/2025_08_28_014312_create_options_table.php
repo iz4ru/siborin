@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->boolean('show_images')->default(true);
             $table->boolean('show_videos')->default(true);
             $table->boolean('show_musics')->default(true);
+            $table->boolean('show_texts')->default(true);
             $table->timestamps();
         });
     }
