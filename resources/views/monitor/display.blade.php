@@ -9,8 +9,8 @@
 
 <div id="slideshow" class="w-full h-screen flex items-center justify-center bg-black text-white relative"></div>
 
-<div id="bell-notification" style="display: none;" class="fixed inset-0 bg-white w-full flex items-center justify-center z-40">
-    <div class="flex flex-col items-center">
+<div id="bell-notification" style="display: none;" class="absolute inset-0 bg-white w-full flex items-center justify-center z-40">
+    <div class="flex flex-col items-center" id="inner-bell">
         <svg id="bell-icon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 !mb-5 text-yellow-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" overflow="visible">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V4a2 2 0 10-4 0v1.083A6 6 0 004 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m5 4a3 3 0 01-6 0" />
@@ -175,8 +175,8 @@
 
 @push('styles')
     <style>
-        #bell-icon {
-            margin-bottom: 10px;
+        #inner-bell {
+            margin-top: calc(50vh - 6rem);
         }
     </style>
 @endpush

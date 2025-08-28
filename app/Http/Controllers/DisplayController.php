@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Models\Video;
 use App\Models\Music;
+use App\Models\Option;
 
 class DisplayController extends Controller
 {
@@ -13,40 +14,48 @@ class DisplayController extends Controller
     {
         $userId = auth()->id();
 
-        $images = Image::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'image_url', 'created_at')
-            ->get()
-            ->map(fn($i) => [
-                'type' => 'image',
-                'id' => $i->id,
-                'filename' => $i->filename,
-                'src' => $i->path ?: $i->image_url,
-                'created_at' => $i->created_at,
-            ]);
+        $options = Option::where('user_id', $userId)->first();
 
-        $videos = Video::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'video_url', 'created_at')
-            ->get()
-            ->map(fn($v) => [
-                'type' => 'video',
-                'id' => $v->id,
-                'filename' => $v->filename,
-                'src' => $v->path ?: $v->video_url,
-                'created_at' => $v->created_at,
-            ]);
+        $images = $options->show_images
+            ? Image::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'image_url', 'created_at')
+                ->get()
+                ->map(fn($i) => [
+                    'type' => 'image',
+                    'id' => $i->id,
+                    'filename' => $i->filename,
+                    'src' => $i->path ?: $i->image_url,
+                    'created_at' => $i->created_at,
+                ])
+            : collect();
 
-        $musics = Music::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'music_url', 'created_at')
-            ->get()
-            ->map(fn($m) => [
-                'type' => 'music',
-                'id' => $m->id,
-                'filename' => $m->filename,
-                'src'  => $m->path ?: $m->music_url,
-                'created_at' => $m->created_at,
-            ]);
+        $videos = $options->show_images
+            ? Video::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'video_url', 'created_at')
+                ->get()
+                ->map(fn($v) => [
+                    'type' => 'video',
+                    'id' => $v->id,
+                    'filename' => $v->filename,
+                    'src' => $v->path ?: $v->video_url,
+                    'created_at' => $v->created_at,
+                ])
+            : collect();
 
-        $items = collect()->merge($images)->merge($videos)->merge($musics);
+        $musics = $options->show_images
+            ? Music::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'music_url', 'created_at')
+                ->get()
+                ->map(fn($m) => [
+                    'type' => 'music',
+                    'id' => $m->id,
+                    'filename' => $m->filename,
+                    'src'  => $m->path ?: $m->music_url,
+                    'created_at' => $m->created_at,
+                ])
+            : collect();
+
+        $items = $images->merge($videos)->merge($musics)->sortBy('created_at')->values();
 
         return view('monitor.display', compact('items'));
     }
@@ -69,41 +78,49 @@ class DisplayController extends Controller
     {
         $userId = auth()->id();
 
-        $images = Image::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'image_url', 'created_at')
-            ->get()
-            ->map(fn($i) => [
-                'type' => 'image',
-                'id' => $i->id,
-                'filename' => $i->filename,
-                'src' => $i->path ?: $i->image_url,
-                'created_at' => $i->created_at,
-            ]);
+        $options = Option::where('user_id', $userId)->first();
 
-        $videos = Video::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'video_url', 'created_at')
-            ->get()
-            ->map(fn($v) => [
-                'type' => 'video',
-                'id' => $v->id,
-                'filename' => $v->filename,
-                'src' => $v->path ?: $v->video_url,
-                'created_at' => $v->created_at,
-            ]);
+        $images = $options->show_images
+            ? Image::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'image_url', 'created_at')
+                ->get()
+                ->map(fn($i) => [
+                    'type' => 'image',
+                    'id' => $i->id,
+                    'filename' => $i->filename,
+                    'src' => $i->path ?: $i->image_url,
+                    'created_at' => $i->created_at,
+                ])
+            : collect();
 
-        $musics = Music::where('user_id', $userId)
-            ->select('id', 'filename', 'path', 'music_url', 'created_at')
-            ->get()
-            ->map(fn($m) => [
-                'type' => 'music',
-                'id' => $m->id,
-                'filename' => $m->filename,
-                'src'  => $m->path ?: $m->music_url,
-                'created_at' => $m->created_at,
-            ]);
+        $videos = $options->show_images
+            ? Video::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'video_url', 'created_at')
+                ->get()
+                ->map(fn($v) => [
+                    'type' => 'video',
+                    'id' => $v->id,
+                    'filename' => $v->filename,
+                    'src' => $v->path ?: $v->video_url,
+                    'created_at' => $v->created_at,
+                ])
+            : collect();
 
-        $items = collect()->merge($images)->merge($videos)->merge($musics)->values();
+        $musics = $options->show_images
+            ? Music::where('user_id', $userId)
+                ->select('id', 'filename', 'path', 'music_url', 'created_at')
+                ->get()
+                ->map(fn($m) => [
+                    'type' => 'music',
+                    'id' => $m->id,
+                    'filename' => $m->filename,
+                    'src'  => $m->path ?: $m->music_url,
+                    'created_at' => $m->created_at,
+                ])
+            : collect();
 
+        $items = $images->merge($videos)->merge($musics)->sortBy('created_at')->values();
+        
         return response()->json($items)
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
             ->header('Pragma', 'no-cache')

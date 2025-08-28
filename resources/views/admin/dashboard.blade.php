@@ -62,6 +62,34 @@
             </div>
         </div>
 
+        <hr class="mt-4 mb-4 border-gray-200 rounded border-t-2">
+
+        <div class="mx-auto">
+            <h2 class="text-lg font-bold mb-4">Select the Content Type to Display</h2>
+            <form method="POST" action="{{ route('dashboard.options.store') }}">
+                @csrf
+                <div class="mb-3">
+                    <label>
+                        <input type="checkbox" name="show_images" value="1" {{ $options->show_images ? 'checked' : '' }}>
+                        Show Images
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="checkbox" name="show_videos" value="1" {{ $options->show_videos ? 'checked' : '' }}>
+                        Show Videos
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="checkbox" name="show_musics" value="1" {{ $options->show_musics ? 'checked' : '' }}>
+                        Show Musics
+                    </label>
+                </div>
+                <button type="submit" class="mt-4 text-white cursor-pointer bg-[#0077C3] hover:bg-[#1A85C9] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex gap-2 items-center">Simpan</button>
+            </form>
+        </div>
+
         <hr class="mt-4 mb-8 border-gray-200 rounded border-t-2">
 
         {{-- Image Upload Section --}}

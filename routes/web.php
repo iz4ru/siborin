@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function (){
 
     # Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/options', [DashboardController::class, 'optionsForm'])->name('dashboard.options');
+    Route::post('dashboard/options', [DashboardController::class, 'saveOptions'])->name('dashboard.options.store');
+
 
     # Images
     Route::get('image', [ImageController::class, 'index'])->name('image.index');
