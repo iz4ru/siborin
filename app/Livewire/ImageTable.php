@@ -85,7 +85,7 @@ class ImageTable extends DataTableComponent
             Column::make('Actions')
                 ->label(fn($row, Column $column) => 
                     '<div class="flex items-center justify-center">
-                        <form method="POST" action="'.route('text.destroy', $row->id).'" onsubmit="return confirm(\'Are you sure you want to delete this image?\');">
+                        <form method="POST" action="'.route('image.destroy', $row->id).'" onsubmit="return confirm(\'Are you sure you want to delete this image?\');">
                             '.csrf_field().'
                             '.method_field('DELETE').'
                             <button type="submit" class="flex cursor-pointer items-center justify-center gap-2 px-3 py-2 bg-red-600 text-white text-xs rounded hover:bg-red-700">

@@ -40,7 +40,8 @@ class MusicController extends Controller
     {
         if ($request->hasFile('music')) {
             foreach ($request->file('music') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $extension = $file->extension();
+                $filename = time() . '_' . Str::random(10) . '.' . $extension;
                 Storage::disk('supabase')->putFileAs('', $file, $filename);
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 

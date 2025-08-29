@@ -40,7 +40,8 @@ class ImageController extends Controller
     {
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $extension = $file->extension();
+                $filename = time() . '_' . Str::random(10) . '.' . $extension;
                 Storage::disk('supabase')->putFileAs('', $file, $filename);
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . '/' . $filename;
 

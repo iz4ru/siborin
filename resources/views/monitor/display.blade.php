@@ -24,6 +24,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
     let items = @json($items);
     let currentIndex = 0;
@@ -42,9 +43,7 @@
                 img.src = file.src;
                 img.onload = checkDone;
             } else if (file.type === "video") {
-                let video = document.createElement("video");
-                video.src = file.src;
-                video.onloadeddata = checkDone;
+                checkDone();
             } else if (file.type === "music") {
                 let audio = new Audio(file.src);
                 audio.onloadeddata = checkDone;
@@ -82,7 +81,9 @@
         if (!item) return;
 
         const wrapper = document.createElement('div');
-        wrapper.className = 'slide-wrapper slide-in-right';
+        wrapper.className = 'slide-wrapper slide-in-right w-full h-full';
+        const playerId = 'file-' + Date.now();
+        wrapper.id = playerId;
 
         if (item.type === "image") {
             const img = document.createElement('img');
@@ -94,21 +95,49 @@
             setTimeout(nextSlide, 5000);
 
         } else if (item.type === "video") {
-            const video = document.createElement('video');
-            video.src = item.src;
-            video.autoplay = true;
-            // di beberapa browser perlu muted buat autoplay
-            // video.muted = true;
-            video.playsInline = true;
-            video.className = 'fullscreen-media';
-            wrapper.appendChild(video);
-            slideshow.appendChild(wrapper);
+            const videoExtensions = /\.(mp4|webm|ogg|mov|mkv|avi)$/i;
+            if (videoExtensions.test(item.src)) {
+                const video = document.createElement('video');
+                video.autoplay = true;
+                // video.muted = true; // untuk bypass autoplay policy
+                video.playsInline = true;
+                video.className = 'fullscreen-media';
+                video.src = item.src;
 
-            // pastikan video play (catch jika autoplay diblock)
-            video.play().catch(() => { /* ignore if blocked */ });
+                wrapper.appendChild(video);
+                slideshow.appendChild(wrapper);
 
-            video.onended = () => nextSlide();
+                video.play().catch(() => { /* autoplay mungkin diblok */ });
 
+                video.onended = () => nextSlide();
+
+            } else {
+                slideshow.appendChild(wrapper);
+
+                function createYouTubePlayer(videoId, elementId) {
+                    if (typeof YT === "undefined" || typeof YT.Player === "undefined") {
+                        setTimeout(() => createYouTubePlayer(videoId, elementId), 100);
+                        return;
+                    }
+
+                    const player = new YT.Player(elementId, {
+                        videoId: videoId,
+                        playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
+                        events: {
+                            onReady: (e) => {
+                                e.target.mute();
+                                e.target.playVideo();
+                            },
+                            onStateChange: (e) => {
+                                if (e.data === YT.PlayerState.PLAYING) e.target.unMute();
+                                if (e.data === YT.PlayerState.ENDED) nextSlide();
+                            }
+                        }
+                    });
+                }
+
+                createYouTubePlayer(item.src, playerId);
+            }
         } else if (item.type === "text") {
             const textEl = document.createElement('div');
             textEl.textContent = item.text || "";

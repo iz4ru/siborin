@@ -7,6 +7,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class VideoController extends Controller
 {
@@ -40,7 +41,8 @@ class VideoController extends Controller
     {
         if ($request->hasFile('video')) {
             foreach ($request->file('video') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $extension = $file->extension();
+                $filename = time() . '_' . Str::random(10) . '.' . $extension;
                 Storage::disk('supabase')->putFileAs('', $file, $filename);
                 $url = env('SUPABASE_VIEW') . env('SUPABASE_BUCKET') . "/" . $filename;
 
@@ -69,12 +71,33 @@ class VideoController extends Controller
                 ],
             );
 
+            $url = null;
+            $host = parse_url($validatedData['video_url'], PHP_URL_HOST);
+
+            if (in_array($host, ['youtube.com', 'www.youtube.com'])) {
+                parse_str(parse_url($validatedData['video_url'], PHP_URL_QUERY), $query);
+                $url = $query['v'] ?? null;
+            } elseif (in_array($host, ['youtu.be', 'www.youtu.be'])) {
+                $url = ltrim(parse_url($validatedData['video_url'], PHP_URL_PATH), '/');
+            } else {
+                $path = parse_url($validatedData['video_url'], PHP_URL_PATH);
+                $ext  = pathinfo($path, PATHINFO_EXTENSION);
+
+                $videoExt = ['mp4', 'mkv', 'avi', 'mov', 'webm', 'flv'];
+
+                if (in_array(strtolower($ext), $videoExt) || str_contains($validatedData['video_url'], 'video')) {
+                    $url = $validatedData['video_url'];
+                } else {
+                    return redirect()->route('dashboard')->withErrors('Your URL does not contain a video');
+                }
+            }
+
             Video::create([
                 'user_id' => Auth::id(),
-                'video_url' => $validatedData['video_url'],
+                'video_url' => $url,
             ]);
 
-            $action = 'Added video from URL: ' . $validatedData['video_url'];
+            $action = 'Added video from URL: ' . $url;
             $this->log($action);
 
             return redirect()->route('dashboard')->with('success', 'Video URL added successfully');
