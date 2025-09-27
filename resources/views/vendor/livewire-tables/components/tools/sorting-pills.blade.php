@@ -4,7 +4,7 @@
     <div>
         @if ($this->sortingPillsAreEnabled() && $this->hasSorts())
             <div class="mb-4 px-4 md:p-0" x-cloak x-show="!currentlyReorderingStatus">
-                <small class="text-gray-700">{{ __($localisationPath.'Applied Sorting') }}:</small>
+                <small class="text-gray-700 dark:text-white">{{ __($localisationPath.'Applied Sorting') }}:</small>
 
                 @foreach($this->getSorts() as $columnSelectName => $direction)
                     @php($column = $this->getColumnBySelectName($columnSelectName) ?? $this->getColumnBySlug($columnSelectName))
@@ -19,7 +19,7 @@
                             $attributes->merge($this->getSortingPillsItemAttributes())
                             ->class([
                                 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 capitalize' => $this->getSortingPillsItemAttributes()['default-styling'],
-                                'bg-indigo-100 text-indigo-800' => $this->getSortingPillsItemAttributes()['default-colors'],
+                                'bg-indigo-100 text-indigo-800 dark:bg-indigo-200 dark:text-indigo-900' => $this->getSortingPillsItemAttributes()['default-colors'],
                             ])
                             ->except(['default-styling', 'default-colors'])
                         }}
@@ -53,7 +53,7 @@
                             $attributes->merge($this->getSortingPillsClearAllButtonAttributes())
                             ->class([
                                 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium' => $this->getSortingPillsClearAllButtonAttributes()['default-styling'],
-                                'bg-gray-100 text-gray-800' => $this->getSortingPillsClearAllButtonAttributes()['default-colors'],
+                                'bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900' => $this->getSortingPillsClearAllButtonAttributes()['default-colors'],
                             ])
                             ->except(['default-styling', 'default-colors'])
                         }}

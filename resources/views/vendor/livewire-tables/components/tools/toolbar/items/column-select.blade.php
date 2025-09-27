@@ -17,7 +17,7 @@
                             $attributes->merge($this->getColumnSelectButtonAttributes())
                             ->class([
                                 'inline-flex justify-center px-4 py-2 w-full text-sm font-medium rounded-md border shadow-sm focus:ring focus:ring-opacity-50' => $this->getColumnSelectButtonAttributes()['default-styling'],
-                                'text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:border-indigo-300 focus:ring-indigo-200' => $this->getColumnSelectButtonAttributes()['default-colors'],
+                                'text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:border-indigo-300 focus:ring-indigo-200 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600' => $this->getColumnSelectButtonAttributes()['default-colors'],
                             ])
                             ->except(['default-styling', 'default-colors'])
                         }}
@@ -42,7 +42,7 @@
                 x-transition:leave-end="transform opacity-0 scale-95"
                 class="absolute right-0 z-50 mt-2 w-full rounded-md divide-y divide-gray-100 ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right md:w-48 focus:outline-none"
             >
-                <div class="bg-white rounded-md shadow-xs">
+                <div class="bg-white rounded-md shadow-xs dark:bg-gray-700 dark:text-white">
                     <div class="p-2" role="menu" aria-orientation="vertical"
                             aria-labelledby="column-select-menu"
                     >
@@ -56,7 +56,7 @@
                                         $attributes->merge($this->getColumnSelectMenuOptionCheckboxAttributes())
                                         ->class([
                                             'transition duration-150 ease-in-out rounded shadow-sm focus:ring focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-wait' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-styling'],
-                                            'text-indigo-600 border-gray-300 focus:border-indigo-300 focus:ring-indigo-200' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-colors'],
+                                            'text-indigo-600 border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 dark:bg-gray-900 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:bg-gray-600' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-colors'],
                                         ])
                                         ->except(['default-styling', 'default-colors'])
                                     }}
@@ -83,7 +83,7 @@
                                             $attributes->merge($this->getColumnSelectMenuOptionCheckboxAttributes())
                                             ->class([
                                                 'transition duration-150 ease-in-out rounded shadow-sm focus:ring focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-wait' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-styling'],
-                                                'text-indigo-600 border-gray-300 focus:border-indigo-300 focus:ring-indigo-200' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-colors'],
+                                                'text-indigo-600 border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 dark:bg-gray-900 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:bg-gray-600' => $this->getColumnSelectMenuOptionCheckboxAttributes()['default-colors'],
                                             ])
                                             ->except(['default-styling', 'default-colors'])
                                         }}

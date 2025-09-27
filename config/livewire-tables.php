@@ -18,12 +18,12 @@ return [
     /**
      * Enable or Disable automatic injection of core assets
      */
-    'inject_core_assets_enabled' => true,
+    'inject_core_assets_enabled' => false,
 
     /**
      * Enable or Disable automatic injection of third-party assets
      */
-    'inject_third_party_assets_enabled' => true,
+    'inject_third_party_assets_enabled' => false,
 
     /**
      * Enable Blade Directives (Not required if automatically injecting or using bundler approaches)
@@ -38,7 +38,7 @@ return [
     /**
      * Customise Script & Styles Paths
      */
-    'script_base_path' => '/rappasoft/laravel-livewire-tables',
+    'script_base_path' => '/vendor/rappasoft/livewire-tables',
 
     /**
      * Filter Default Configuration Options
@@ -129,4 +129,30 @@ return [
         'enableUserForEvent' => true,
     ],
 
+    'assets' => [
+    'inject_core_assets_enabled' => true,
+    'inject_third_party_assets_enabled' => true,
+    
+    'core' => [
+        'css' => [
+            'base' => '/vendor/rappasoft/livewire-tables/css/',
+            'file' => 'core.min.css',
+        ],
+        'js' => [
+            'base' => '/vendor/rappasoft/livewire-tables/js/',
+            'file' => 'core.min.js',
+        ],
+    ],
+    
+    'third_party' => [
+        'css' => [
+            'base' => '/vendor/rappasoft/livewire-tables/css/',
+            'file' => 'thirdparty.min.css',
+        ],
+        'js' => [
+            'base' => '/vendor/rappasoft/livewire-tables/js/',
+            'file' => 'thirdparty.min.js',
+        ],
+    ],
+],
 ];

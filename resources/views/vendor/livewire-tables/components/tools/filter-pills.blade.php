@@ -12,7 +12,7 @@
 
 }}>
     <small @class([
-        'text-gray-700' => $isTailwind,
+        'text-gray-700 dark:text-white' => $isTailwind,
         '' =>  $isBootstrap,
     ])>
         {{ __($localisationPath.'Applied Filters') }}:

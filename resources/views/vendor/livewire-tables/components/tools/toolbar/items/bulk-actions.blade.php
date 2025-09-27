@@ -17,7 +17,7 @@
                 $attributes->merge($this->getBulkActionsButtonAttributes)
                 ->class([
                     'btn dropdown-toggle d-block d-md-inline' => $isBootstrap && ($this->getBulkActionsButtonAttributes['default-styling'] ?? true),
-                    'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:border-indigo-300 focus:ring-indigo-200' => $isTailwind && ($this->getBulkActionsButtonAttributes['default-colors'] ?? true),
+                    'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:border-indigo-300 focus:ring-indigo-200 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600' => $isTailwind && ($this->getBulkActionsButtonAttributes['default-colors'] ?? true),
                     'inline-flex justify-center w-full rounded-md border shadow-sm px-4 py-2 text-sm font-medium focus:ring focus:ring-opacity-50' => $isTailwind && ($this->getBulkActionsButtonAttributes['default-styling'] ?? true),
 
                 ])
@@ -58,7 +58,7 @@
                     {{ 
                         $attributes->merge($this->getBulkActionsMenuAttributes)
                         ->class([
-                            'bg-white' => $isTailwind && ($this->getBulkActionsMenuAttributes['default-colors'] ?? true),
+                            'bg-white dark:bg-gray-700 dark:text-white' => $isTailwind && ($this->getBulkActionsMenuAttributes['default-colors'] ?? true),
                             'rounded-md shadow-xs' => $isTailwind && ($this->getBulkActionsMenuAttributes['default-styling'] ?? true),
                         ])
                         ->except(['default','default-styling','default-colors']) 
@@ -77,7 +77,7 @@
                                 {{ 
                                     $attributes->merge($this->getBulkActionsMenuItemAttributes)
                                     ->class([
-                                        'text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900' => $isTailwind && ($this->getBulkActionsMenuItemAttributes['default-colors'] ?? true),
+                                        'text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 dark:text-white dark:hover:bg-gray-600' => $isTailwind && ($this->getBulkActionsMenuItemAttributes['default-colors'] ?? true),
                                         'block w-full px-4 py-2 text-sm leading-5 focus:outline-none flex items-center space-x-2' => $isTailwind && ($this->getBulkActionsMenuItemAttributes['default-styling'] ?? true),
                                     ])
                                     ->except(['default','default-styling','default-colors']) 

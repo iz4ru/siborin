@@ -14,7 +14,7 @@
     @if($this->hasDisplayLoadingPlaceholder()) 
         wire:loading.class.add="hidden d-none"
     @else
-        wire:loading.class.delay="opacity-50"
+        wire:loading.class.delay="opacity-50 dark:bg-gray-900 dark:opacity-60"
     @endif
     id="{{ $tableName }}-row-{{ $row->{$primaryKey} }}"
     :draggable="currentlyReorderingStatus"
@@ -23,8 +23,8 @@
     {{
         $attributes->merge($customAttributes)
                 ->class([
-                    'bg-white rappasoft-striped-row' => ($isTailwind && ($customAttributes['default'] ?? true) && $rowIndex % 2 === 0),
-                    'bg-gray-50 rappasoft-striped-row' => ($isTailwind && ($customAttributes['default'] ?? true) && $rowIndex % 2 !== 0),
+                    'bg-white dark:bg-gray-700 dark:text-white rappasoft-striped-row' => ($isTailwind && ($customAttributes['default'] ?? true) && $rowIndex % 2 === 0),
+                    'bg-gray-50 dark:bg-gray-800 dark:text-white rappasoft-striped-row' => ($isTailwind && ($customAttributes['default'] ?? true) && $rowIndex % 2 !== 0),
                     'cursor-pointer' => ($isTailwind && $this->hasTableRowUrl() && ($customAttributes['default'] ?? true)),
                     'bg-light rappasoft-striped-row' => ($isBootstrap && $rowIndex % 2 === 0 && ($customAttributes['default'] ?? true)),
                     'bg-white rappasoft-striped-row' => ($isBootstrap && $rowIndex % 2 !== 0 && ($customAttributes['default'] ?? true)),

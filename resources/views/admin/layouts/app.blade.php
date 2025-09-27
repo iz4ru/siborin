@@ -10,6 +10,13 @@
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Livewire styles -->
+    @livewireStyles
+
+    <!-- Rappasoft CSS -->
+<link rel="stylesheet" href="{{ asset('vendor/rappasoft/livewire-tables/css/laravel-livewire-tables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/rappasoft/livewire-tables/css/laravel-livewire-tables-thirdparty.min.css') }}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 
@@ -26,9 +33,9 @@
         }
     </style>
     @stack('styles')
-
-    <!-- Livewire styles -->
-    @livewireStyles
+ 
+    <!-- Adds any relevant Third-Party Styles (Used for DateRangeFilter (Flatpickr) and NumberRangeFilter) -->
+    <!-- @rappasoftTableThirdPartyStyles -->
 
     <!-- Dropzone -->
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
@@ -48,8 +55,15 @@
         @include('admin.layouts.partials.footer')
     </div>
 
-    @stack('scripts')
+    <!-- Livewire scripts PERTAMA -->
     @livewireScripts
+
+    <!-- Rappasoft JS KEDUA -->
+<script src="{{ asset('vendor/rappasoft/livewire-tables/js/laravel-livewire-tables.min.js') }}"></script>
+<script src="{{ asset('vendor/rappasoft/livewire-tables/js/laravel-livewire-tables-thirdparty.min.js') }}"></script>
+
+
+    @stack('scripts')
 
     <!-- Password toggle -->
     <script>

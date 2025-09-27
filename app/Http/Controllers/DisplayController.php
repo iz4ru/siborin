@@ -13,6 +13,9 @@ class DisplayController extends Controller
 {
     public function index()
     {
+	if (!auth()->check()) {
+        	return redirect('/'); // kalau belum login, langsung ke root
+    	}
         $userId = auth()->id();
 
         $options = Option::where('user_id', $userId)->first();
@@ -68,7 +71,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $items = $images->merge($videos)->merge($musics)->merge($texts)->sortBy('created_at')->values();
+        $items = collect($images)->merge($videos)->merge($musics)->merge($texts)->sortByDesc(fn($item) => $item['created_at'])->values();
 
         return view('monitor.display', compact('items'));
     }
@@ -146,7 +149,7 @@ class DisplayController extends Controller
                 ])
             : collect();
 
-        $items = $images->merge($videos)->merge($musics)->merge($texts)->sortBy('created_at')->values();
+        $items = collect($images)->merge($videos)->merge($musics)->merge($texts)->sortByDesc(fn($item) => $item['created_at'])->values();
 
         return response()->json($items)
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate')

@@ -340,7 +340,7 @@
             uploadMultiple: true,
             autoProcessQueue: false,
             parallelUploads: 10,
-            maxFilesize: 2, // MB
+            maxFilesize: 50,
             acceptedFiles: "image/*",
             addRemoveLinks: true,
             dictDefaultMessage: "Drag and drop image(s) here or click to select files! :)",
@@ -355,7 +355,7 @@
             uploadMultiple: true,
             autoProcessQueue: false,
             parallelUploads: 10,
-            maxFilesize: 2, // MB
+            maxFilesize: 50,
             acceptedFiles: "video/*",
             addRemoveLinks: true,
             dictDefaultMessage: "Drag and drop video(s) here or click to select files! :)",
@@ -370,7 +370,7 @@
             uploadMultiple: true,
             autoProcessQueue: false,
             parallelUploads: 10,
-            maxFilesize: 2, // MB
+            maxFilesize: 50,
             acceptedFiles: "audio/*",
             addRemoveLinks: true,
             dictDefaultMessage: "Drag and drop song(s) here or click to select files! :)",

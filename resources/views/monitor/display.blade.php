@@ -26,203 +26,237 @@
 @push('scripts')
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    let items = @json($items);
-    let currentIndex = 0;
-    let isLoading = true;
-    let mediaItems = items.filter(i => i.type !== "music");
-    let musicItems = items.filter(i => i.type === "music");
-    let currentMusicIndex = 0;
+let items = @json($items);
+let currentIndex = 0;
+let isLoading = true;
+let mediaItems = items.filter(i => i.type !== "music");
+let musicItems = items.filter(i => i.type === "music");
+let currentMusicIndex = 0;
+let isTransitioning = false; // Flag untuk mencegah overlapping
+let currentTimer = null; // Timer untuk slide saat ini
 
-    function preloadFiles(files, callback) {
-        let loaded = 0;
-        if (files.length === 0) return callback();
+function preloadFiles(files, callback) {
+    let loaded = 0;
+    if (files.length === 0) return callback();
 
-        files.forEach(file => {
-            if (file.type === "image") {
-                let img = new Image();
-                img.src = file.src;
-                img.onload = checkDone;
-            } else if (file.type === "video") {
-                checkDone();
-            } else if (file.type === "music") {
-                let audio = new Audio(file.src);
-                audio.onloadeddata = checkDone;
-            } else if (file.type === "text") {
-                checkDone();
-            }
-        });
-
-        function checkDone() {
-            loaded++;
-            if (loaded === files.length) callback();
+    files.forEach(file => {
+        if (file.type === "image") {
+            let img = new Image();
+            img.src = file.src;
+            img.onload = checkDone;
+        } else if (file.type === "video") {
+            checkDone();
+        } else if (file.type === "music") {
+            let audio = new Audio(file.src);
+            audio.onloadeddata = checkDone;
+        } else if (file.type === "text") {
+            checkDone();
         }
+    });
+
+    function checkDone() {
+        loaded++;
+        if (loaded === files.length) callback();
+    }
+}
+
+function startSlideshow() {
+    isLoading = false;
+    document.getElementById("loading").style.display = "none";
+    showItem(mediaItems[currentIndex]);
+    if (musicItems.length > 0) {
+        startMusicPlayer();
+    }
+}
+
+function showItem(item, forceReplace = false) {
+    // Clear timer yang sedang berjalan
+    if (currentTimer) {
+        clearTimeout(currentTimer);
+        currentTimer = null;
+    }
+    
+    // Jika sedang transisi dan bukan force replace, skip
+    if (isTransitioning && !forceReplace) return;
+    
+    const slideshow = document.getElementById('slideshow');
+    const current = slideshow.querySelector('.slide-wrapper');
+
+    // Jika force replace (dari update), langsung hapus slide yang ada
+    if (forceReplace && current) {
+        current.remove();
+        isTransitioning = false;
     }
 
-    function startSlideshow() {
-        isLoading = false;
-        document.getElementById("loading").style.display = "none";
-        showItem(mediaItems[currentIndex]);
-        if (musicItems.length > 0) {
-            startMusicPlayer();
-        }
+    // Jika ada slide aktif dan bukan force replace, lakukan animasi normal
+    if (current && !forceReplace) {
+        isTransitioning = true;
+        current.classList.remove('slide-in-right', 'fade-in');
+        current.classList.add('slide-out-left');
+        
+        current.addEventListener('animationend', () => {
+            current.remove();
+            isTransitioning = false;
+            // Setelah slide lama hilang, tampilkan slide baru
+            createAndShowSlide(item);
+        }, { once: true });
+    } else {
+        // Tidak ada slide aktif atau force replace
+        createAndShowSlide(item);
     }
+}
 
-    function showItem(item) {
-        const slideshow = document.getElementById('slideshow');
+function createAndShowSlide(item) {
+    if (!item) return;
 
-        // beri exit animation pada slide yang sedang tampil (jika ada)
-        const current = slideshow.querySelector('.slide-wrapper');
-        if (current) {
-            current.classList.remove('slide-in-right', 'fade-in');
-            current.classList.add('slide-out-left');
-            current.addEventListener('animationend', () => current.remove(), { once: true });
-        }
+    const slideshow = document.getElementById('slideshow');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'slide-wrapper slide-in-right w-full h-full';
+    const playerId = 'file-' + Date.now();
+    wrapper.id = playerId;
 
-        if (!item) return;
+    if (item.type === "image") {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.className = 'fullscreen-media';
+        wrapper.appendChild(img);
+        slideshow.appendChild(wrapper);
 
-        const wrapper = document.createElement('div');
-        wrapper.className = 'slide-wrapper slide-in-right w-full h-full';
-        const playerId = 'file-' + Date.now();
-        wrapper.id = playerId;
+        currentTimer = setTimeout(nextSlide, 10000);
 
-        if (item.type === "image") {
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.className = 'fullscreen-media';
-            wrapper.appendChild(img);
+    } else if (item.type === "video") {
+        const videoExtensions = /\.(mp4|webm|ogg|mov|mkv|avi)$/i;
+        if (videoExtensions.test(item.src)) {
+            const video = document.createElement('video');
+            video.autoplay = true;
+            video.playsInline = true;
+            video.className = 'fullscreen-media';
+            video.src = item.src;
+
+            wrapper.appendChild(video);
             slideshow.appendChild(wrapper);
 
-            setTimeout(nextSlide, 5000);
+            video.play().catch(() => { /* autoplay mungkin diblok */ });
+            video.onended = () => nextSlide();
 
-        } else if (item.type === "video") {
-            const videoExtensions = /\.(mp4|webm|ogg|mov|mkv|avi)$/i;
-            if (videoExtensions.test(item.src)) {
-                const video = document.createElement('video');
-                video.autoplay = true;
-                // video.muted = true; // untuk bypass autoplay policy
-                video.playsInline = true;
-                video.className = 'fullscreen-media';
-                video.src = item.src;
+        } else {
+            slideshow.appendChild(wrapper);
 
-                wrapper.appendChild(video);
-                slideshow.appendChild(wrapper);
-
-                video.play().catch(() => { /* autoplay mungkin diblok */ });
-
-                video.onended = () => nextSlide();
-
-            } else {
-                slideshow.appendChild(wrapper);
-
-                function createYouTubePlayer(videoId, elementId) {
-                    if (typeof YT === "undefined" || typeof YT.Player === "undefined") {
-                        setTimeout(() => createYouTubePlayer(videoId, elementId), 100);
-                        return;
-                    }
-
-                    const player = new YT.Player(elementId, {
-                        videoId: videoId,
-                        playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
-                        events: {
-                            onReady: (e) => {
-                                e.target.mute();
-                                e.target.playVideo();
-                            },
-                            onStateChange: (e) => {
-                                if (e.data === YT.PlayerState.PLAYING) e.target.unMute();
-                                if (e.data === YT.PlayerState.ENDED) nextSlide();
-                            }
-                        }
-                    });
+            function createYouTubePlayer(videoId, elementId) {
+                if (typeof YT === "undefined" || typeof YT.Player === "undefined") {
+                    setTimeout(() => createYouTubePlayer(videoId, elementId), 100);
+                    return;
                 }
 
-                createYouTubePlayer(item.src, playerId);
+                const player = new YT.Player(elementId, {
+                    videoId: videoId,
+                    playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
+                    events: {
+                        onReady: (e) => {
+                            e.target.mute();
+                            e.target.playVideo();
+                        },
+                        onStateChange: (e) => {
+                            if (e.data === YT.PlayerState.PLAYING) e.target.unMute();
+                            if (e.data === YT.PlayerState.ENDED) nextSlide();
+                        }
+                    }
+                });
             }
-        } else if (item.type === "text") {
-            const textEl = document.createElement('div');
-            textEl.textContent = item.text || "";
-            textEl.className = "text-6xl md:text-8xl font-bold text-center p-6";
-            wrapper.appendChild(textEl);
-            slideshow.appendChild(wrapper);
 
-            setTimeout(nextSlide, 5000);
+            createYouTubePlayer(item.src, playerId);
         }
-    }
+    } else if (item.type === "text") {
+        const textEl = document.createElement('div');
+        textEl.textContent = item.text || "";
+        textEl.className = "text-6xl md:text-8xl font-bold text-center p-6";
+        wrapper.appendChild(textEl);
+        slideshow.appendChild(wrapper);
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % mediaItems.length;
-        showItem(mediaItems[currentIndex]);
+        currentTimer = setTimeout(nextSlide, 10000);
     }
+}
 
-    function startMusicPlayer() {
-        const audio = document.getElementById("background-music");
+function nextSlide() {
+    // Jangan lanjut ke slide berikutnya jika sedang transisi
+    if (isTransitioning) return;
+    
+    currentIndex = (currentIndex + 1) % mediaItems.length;
+    showItem(mediaItems[currentIndex]);
+}
+
+function startMusicPlayer() {
+    const audio = document.getElementById("background-music");
+    audio.src = musicItems[currentMusicIndex].src;
+    audio.play();
+
+    audio.onended = () => {
+        currentMusicIndex = (currentMusicIndex + 1) % musicItems.length;
         audio.src = musicItems[currentMusicIndex].src;
         audio.play();
+    };
+}
 
-        audio.onended = () => {
-            currentMusicIndex = (currentMusicIndex + 1) % musicItems.length;
-            audio.src = musicItems[currentMusicIndex].src;
-            audio.play();
-        };
-    }
+let lastCount = null;
+let lastUpdatedAt = null;
+let firstCheckDone = false;
 
-    let lastCount = null;
-    let lastUpdatedAt = null;
-    let firstCheckDone = false;
+async function checkForUpdates() {
+    if (isLoading) return;
+    try {
+        const res = await fetch("{{ route('display.check') }}");
+        const data = await res.json();
 
-    async function checkForUpdates() {
-        if (isLoading) return;
-        try {
-            const res = await fetch("{{ route('display.check') }}");
-            const data = await res.json();
-
-            if (!firstCheckDone) {
-                lastCount = data.count;
-                lastUpdatedAt = data.updated_at;
-                firstCheckDone = true;
-                return;
-            }
-
-            if (data.count !== lastCount || data.updated_at !== lastUpdatedAt) {
-                lastCount = data.count;
-                lastUpdatedAt = data.updated_at;
-
-                playBell();
-                await fetchData();
-            }
-        } catch (err) {
-            console.error("Check update failed:", err);
+        if (!firstCheckDone) {
+            lastCount = data.count;
+            lastUpdatedAt = data.updated_at;
+            firstCheckDone = true;
+            return;
         }
+
+        if (data.count !== lastCount || data.updated_at !== lastUpdatedAt) {
+            lastCount = data.count;
+            lastUpdatedAt = data.updated_at;
+
+            playBell();
+            await fetchData();
+        }
+    } catch (err) {
+        console.error("Check update failed:", err);
     }
+}
 
-    async function fetchData() {
-        if (isLoading) return;
-        const res = await fetch("{{ route('display.data') }}");
-        items = await res.json();
-        currentIndex = 0;
-        mediaItems = items.filter(i => i.type !== "music");
-        musicItems = items.filter(i => i.type === "music");
-        showItem(mediaItems[currentIndex]);
-    }
+async function fetchData() {
+    if (isLoading) return;
+    
+    const res = await fetch("{{ route('display.data') }}");
+    items = await res.json();
+    currentIndex = 0;
+    mediaItems = items.filter(i => i.type !== "music");
+    musicItems = items.filter(i => i.type === "music");
+    
+    // Force replace slide yang sedang aktif dengan data baru
+    showItem(mediaItems[currentIndex], true);
+}
 
-    function playBell() {
-        if (isLoading) return;
-        const bell = document.getElementById("bell-icon");
-        const conbell = document.getElementById('bell-notification');
-        bell.classList.add("animate-bell");
-        conbell.style.display = "block";
+function playBell() {
+    if (isLoading) return;
+    const bell = document.getElementById("bell-icon");
+    const conbell = document.getElementById('bell-notification');
+    bell.classList.add("animate-bell");
+    conbell.style.display = "block";
 
-        const audio = new Audio("/sounds/bell.mp3");
-        audio.play();
+    const audio = new Audio("/sounds/bell.mp3");
+    audio.play();
 
-        setTimeout(() => {
-            conbell.style.display = "none";
-            bell.classList.remove("animate-bell");
-        }, 2000);
-    }
+    setTimeout(() => {
+        conbell.style.display = "none";
+        bell.classList.remove("animate-bell");
+    }, 2000);
+}
 
-    setInterval(checkForUpdates, 10000);
-    preloadFiles(items, () => startSlideshow());
+setInterval(checkForUpdates, 10000);
+preloadFiles(items, () => startSlideshow());
 </script>
 @endpush
 
@@ -255,10 +289,10 @@
         to   { transform: translateX(-100%);opacity: 0; }
     }
 
-    .slide-in-right { animation: slideInRight 0.8s ease forwards; }
-    .slide-out-left { animation: slideOutLeft 0.8s ease forwards; }
+    .slide-in-right { animation: slideInRight 0.4s ease forwards; }
+    .slide-out-left { animation: slideOutLeft 0.4s ease forwards; }
 
     @keyframes fadeIn { from {opacity:0} to {opacity:1} }
-    .fade-in { animation: fadeIn 0.6s ease forwards; }
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
 </style>
 @endpush
