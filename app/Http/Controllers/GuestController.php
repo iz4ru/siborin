@@ -72,4 +72,9 @@ class GuestController extends Controller
     {
         return view('guest.thanks');
     }
+
+    public function latest()
+    {
+        return response()->json(Guest::latest()->first(['id', 'name', 'photo']));
+    }
 }

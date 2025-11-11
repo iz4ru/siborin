@@ -22,22 +22,23 @@
                 </g>
                 <g id="pencil">
                     <path class="pencil-body" d="M37.6,162.2c32-32,64.4-64.2,96.3-96.3c3.9-3.9,6.6-4.3,10.9,0c13.3,13.6,26.8,27,40.3,40.4
-      c1.1,1.1,2.1,2.2,2.3,3.8c0.2,1.9-0.8,3.2-2,4.5c-5.3,5.3-96.9,97.3-97.9,97.5c0-7.5,0-15,0.1-22.4c0-1.7-0.4-2.3-2.2-2.2
-      c-6.7,0.1-13.4,0-20.2,0c-3,0-2.7,0.3-2.7-2.8c0-6.6,0-13.3,0-19.9c0-2.3,0-2.3-2.3-2.3C53.6,162.5,38.6,162.7,37.6,162.2z
-      M76.9,159.4c2.6,0,4-1.3,5.3-2.6c19.3-19.4,38.7-38.7,58-58.1c0.7-0.7,1.4-1.3,1.8-2.1c2.1-3.5-0.2-7.9-4.2-8.3
-      c-2-0.2-3.5,0.9-4.9,2.3C113.5,110,94,129.5,74.5,149c-0.6,0.6-1.3,1.2-1.7,1.9c-1.2,1.8-1.2,3.7-0.2,5.6
-      C73.6,158.5,75.3,159.3,76.9,159.4z" />
-                    <path class="pencil-eraser" d="M184.1,25c3.8,0,8.1,1.8,11.7,5.3c8,7.9,16,15.8,23.9,23.9c6.8,6.9,7.1,17.8,0.8,25
-      c-6,6.8-12.9,12.8-19.2,19.3c-1.8,1.8-3.7,1.9-5.9,0.5c-0.7-0.5-1.3-1.1-1.9-1.7c-13.7-13.6-27.3-27.3-41-40.9
-      c-3.4-3.4-3-6.2,0.1-9.2c5.1-4.8,9.8-10,15-14.7c2.2-2,4-4.2,6.7-5.5C177,25.7,179.8,25,184.1,25z" />
+                                      c1.1,1.1,2.1,2.2,2.3,3.8c0.2,1.9-0.8,3.2-2,4.5c-5.3,5.3-96.9,97.3-97.9,97.5c0-7.5,0-15,0.1-22.4c0-1.7-0.4-2.3-2.2-2.2
+                                      c-6.7,0.1-13.4,0-20.2,0c-3,0-2.7,0.3-2.7-2.8c0-6.6,0-13.3,0-19.9c0-2.3,0-2.3-2.3-2.3C53.6,162.5,38.6,162.7,37.6,162.2z
+                                      M76.9,159.4c2.6,0,4-1.3,5.3-2.6c19.3-19.4,38.7-38.7,58-58.1c0.7-0.7,1.4-1.3,1.8-2.1c2.1-3.5-0.2-7.9-4.2-8.3
+                                      c-2-0.2-3.5,0.9-4.9,2.3C113.5,110,94,129.5,74.5,149c-0.6,0.6-1.3,1.2-1.7,1.9c-1.2,1.8-1.2,3.7-0.2,5.6
+                                      C73.6,158.5,75.3,159.3,76.9,159.4z" />
+                    <path class="pencil-eraser"
+                        d="M184.1,25c3.8,0,8.1,1.8,11.7,5.3c8,7.9,16,15.8,23.9,23.9c6.8,6.9,7.1,17.8,0.8,25
+                                      c-6,6.8-12.9,12.8-19.2,19.3c-1.8,1.8-3.7,1.9-5.9,0.5c-0.7-0.5-1.3-1.1-1.9-1.7c-13.7-13.6-27.3-27.3-41-40.9
+                                      c-3.4-3.4-3-6.2,0.1-9.2c5.1-4.8,9.8-10,15-14.7c2.2-2,4-4.2,6.7-5.5C177,25.7,179.8,25,184.1,25z" />
                     <path class="pencil-wood" d="M37.6,162.2c1.1,0.5,16,0.3,22.5,0.3c2.3,0,2.3,0,2.3,2.3c0,6.6,0,13.3,0,19.9c0,3.1-0.3,2.8,2.7,2.8
-      c6.7,0,13.4,0.1,20.2,0c1.8,0,2.2,0.5,2.2,2.2c-0.1,7.5-0.1,15-0.1,22.4c-2.4,1.4-25.2,6.5-25.6,6.6c-0.2-0.8-29.3-30.5-30.6-30.6
-      c0.7-5.1,2.4-10,3.5-15C35.5,169.7,37.5,162.4,37.6,162.2z" />
+                                      c6.7,0,13.4,0.1,20.2,0c1.8,0,2.2,0.5,2.2,2.2c-0.1,7.5-0.1,15-0.1,22.4c-2.4,1.4-25.2,6.5-25.6,6.6c-0.2-0.8-29.3-30.5-30.6-30.6
+                                      c0.7-5.1,2.4-10,3.5-15C35.5,169.7,37.5,162.4,37.6,162.2z" />
                     <path class="pencil-tip" d="M31.3,188.1c1.2,0.1,30.4,29.7,30.6,30.6c-8.4,2-16.8,4.1-25.3,6c-6.9,1.6-12.9-4.4-11.3-11.3
-      C27.2,205,29.3,196.6,31.3,188.1z" />
+                                      C27.2,205,29.3,196.6,31.3,188.1z" />
                     <path class="pencil-highlight" d="M76.9,159.4c-1.6-0.1-3.3-0.8-4.3-2.9c-1-1.9-0.9-3.8,0.2-5.6c0.5-0.7,1.1-1.3,1.7-1.9
-      c19.5-19.5,39-38.9,58.4-58.4c1.4-1.4,2.9-2.4,4.9-2.3c4,0.3,6.2,4.8,4.2,8.3c-0.5,0.8-1.2,1.5-1.8,2.1
-      c-19.3,19.4-38.7,38.7-58,58.1C80.9,158.1,79.5,159.4,76.9,159.4z" />
+                                      c19.5-19.5,39-38.9,58.4-58.4c1.4-1.4,2.9-2.4,4.9-2.3c4,0.3,6.2,4.8,4.2,8.3c-0.5,0.8-1.2,1.5-1.8,2.1
+                                      c-19.3,19.4-38.7,38.7-58,58.1C80.9,158.1,79.5,159.4,76.9,159.4z" />
                 </g>
             </svg>
         </div>
@@ -62,6 +63,17 @@
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V4a2 2 0 10-4 0v1.083A6 6 0 004 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m5 4a3 3 0 01-6 0" />
             </svg>
             <p class="text-black !mt-5 text-xl">New content available!</p>
+        </div>
+    </div>
+
+    <div id="guest-modal" class="fixed inset-0 flex items-center justify-center bg-black/60 hidden">
+        <div class="bg-white text-black rounded-lg p-6 max-w-sm text-center shadow-lg">
+            <h2 class="text-xl mb-2" id="guest-name"></h2>
+            <p id="guest-message" class="text-sm mb-4"></p>
+            <div class="overflow-hidden rounded-lg border-3 border-[#0077C3] mx-auto w-full max-w-[500px] aspect-[4/3]">
+                <img id="guest-photo" src="{{ $guest['photo'] ?? '' }}" alt="Guest Photo"
+                    class="w-full h-full object-cover">
+            </div>
         </div>
     </div>
 
@@ -187,7 +199,8 @@
                     slideshow.appendChild(wrapper);
 
                     video.play().catch(() => {
-                        /* autoplay mungkin diblok */ });
+                        /* autoplay mungkin diblok */
+                    });
                     video.onended = () => nextSlide();
 
                 } else {
@@ -329,6 +342,45 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function showGuestPopup(guest) {
+            const modal = document.getElementById("guest-modal");
+            const name = document.getElementById("guest-name");
+            const message = document.getElementById("guest-message");
+            const photo = document.getElementById("guest-photo");
+
+            name.innerHTML =
+                `Terima kasih telah mengunjungi SIBORIN, <span style="font-weight: 700; color: #0077C3;">${guest.name}</span>!`;
+            message.textContent = "";
+            photo.src = guest.photo || "/images/default-avatar.png";
+
+            const sfx = new Audio("/sounds/thanks.mp3");
+            sfx.play();
+
+            modal.classList.remove("hidden");
+
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 5000);
+        }
+
+        let lastGuestId = null;
+
+        function checkNewGuest() {
+            fetch('/api/latest-guest')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.id !== lastGuestId) {
+                        lastGuestId = data.id;
+                        showGuestPopup(data);
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        setInterval(checkNewGuest, 10000); // cek tiap 10 detik
     </script>
 @endpush
 

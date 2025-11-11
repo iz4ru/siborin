@@ -18,27 +18,27 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+# Display Page
 Route::get('display', [DisplayController::class, 'index'])->name('display.index');
 Route::get('display/check', [DisplayController::class, 'check'])->name('display.check');
 Route::get('display/data', [DisplayController::class, 'data'])->name('display.data');
 
-Route::middleware('guest')->group(function (){
+# User Guest Form
+Route::get('guest/form', [GuestController::class, 'index'])->name('guest.form');
+Route::post('guest/form', [GuestController::class, 'store'])->name('guest.store');
+Route::get('/guest/thanks', [GuestController::class, 'thanks'])->name('guest.thanks');
+Route::get('/api/latest-guest', [GuestController::class, 'latest']);
+
+Route::middleware('guest')->group(function () {
     Route::get('log-in', [AuthController::class, 'index'])->name('login');
     Route::post('log-in', [AuthController::class, 'login'])->name('login.post');
-
-    # User Guest Form
-    Route::get('guest/form', [GuestController::class, 'index'])->name('guest.form');
-    Route::post('guest/form', [GuestController::class, 'store'])->name('guest.store');
-    Route::get('/guest/thanks', [GuestController::class, 'thanks'])->name('guest.thanks');
 });
 
-Route::middleware('auth')->group(function (){
-
+Route::middleware('auth')->group(function () {
     # Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboard/options', [DashboardController::class, 'optionsForm'])->name('dashboard.options');
     Route::post('dashboard/options', [DashboardController::class, 'saveOptions'])->name('dashboard.options.store');
-
 
     # Images
     Route::get('image', [ImageController::class, 'index'])->name('image.index');
