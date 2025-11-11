@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -29,7 +28,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
@@ -41,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -65,12 +63,22 @@ return [
             'key' => env('SUPABASE_KEY'),
             'secret' => env('SUPABASE_SECRET'),
             'region' => 'ap-southeast-1',
-            'bucket' => env('SUPABASE_BUCKET'),
+            'bucket' => env('SUPABASE_BUCKET'), //storage_siborin
             'url' => env('SUPABASE_URL'),
             'endpoint' => env('SUPABASE_URL'),
             'use_path_style_endpoint' => true,
         ],
 
+        'supabase_guest' => [
+            'driver' => 's3',
+            'key' => env('SUPABASE_KEY'),
+            'secret' => env('SUPABASE_SECRET'),
+            'region' => 'ap-southeast-1',
+            'bucket' => env('SUPABASE_BUCKET_GUEST'), // guest_photo
+            'url' => env('SUPABASE_URL'),
+            'endpoint' => env('SUPABASE_URL'),
+            'use_path_style_endpoint' => true,
+        ],
     ],
 
     /*
@@ -87,5 +95,4 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-
 ];

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TextController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\VideoController;
@@ -24,6 +25,11 @@ Route::get('display/data', [DisplayController::class, 'data'])->name('display.da
 Route::middleware('guest')->group(function (){
     Route::get('log-in', [AuthController::class, 'index'])->name('login');
     Route::post('log-in', [AuthController::class, 'login'])->name('login.post');
+
+    # User Guest Form
+    Route::get('guest/form', [GuestController::class, 'index'])->name('guest.form');
+    Route::post('guest/form', [GuestController::class, 'store'])->name('guest.store');
+    Route::get('/guest/thanks', [GuestController::class, 'thanks'])->name('guest.thanks');
 });
 
 Route::middleware('auth')->group(function (){
