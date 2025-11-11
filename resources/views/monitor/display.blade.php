@@ -67,6 +67,8 @@
 
     <audio id="background-music" autoplay hidden></audio>
     <audio id="bell-sound" src="{{ asset('sounds/bell.mp3') }}"></audio>
+
+    <img src="{{ asset('images/qr.jpg') }}" class="h-28 w-28 me-3 fixed left-5 bottom-5 rounded-sm" alt="QR Code" />
 @endsection
 
 @push('scripts')

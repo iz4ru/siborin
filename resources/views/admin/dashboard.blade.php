@@ -63,6 +63,12 @@
             </div>
         </div>
 
+	<hr class="mt-4 mb-4 border-gray-200 rounded border-t-2">
+        
+        <div class="mx-auto flex justify-center items-center">
+            <button type="button" onclick="document.location.href='/display'" class="text-white cursor-pointer bg-[#0077C3] hover:bg-[#1A85C9] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex gap-2 items-center">To Display Monitor</button>
+        </div>
+
         <hr class="mt-4 mb-4 border-gray-200 rounded border-t-2">
 
         <div class="mx-auto">
